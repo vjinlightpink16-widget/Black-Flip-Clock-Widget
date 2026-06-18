@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anton Light Blue Flip Clock (White Text)</title>
+    <style>
+        /* FIX 1: Safely import the official open-source Anton Font */
+        @import url('https://googleapis.com');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: transparent; /* Seamless blend into Notion */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            font-family: 'Anton', sans-serif;
+            overflow: hidden;
+        }
+
+        .flip-clock-container {
+            display: flex;
+            gap: 2.5vw; /* Responsive gap */
+            width: 90vw;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* FIX 2: Upgraded container to scale proportionally when resized in Notion */
+        .flip-card {
+            background-color: #000000;   /* Your exact pastel background color choice */
+            width: 42vw;
+            height: 60vw;
+            max-height: 85vh;
+            border-radius: 2.5vw;         /* Sleek rounded geometry */
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFFFFF;              /* Shifted to clear white font */
+            font-size: 28vw;             /* Font automatically grows with the window size */
+            letter-spacing: 1px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08); /* Minimalist drop shadow */
+        }
+
+        /* The signature horizontal split divider line */
+        .flip-card::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(255, 255, 255, 0.4); /* Subtle white slit line */
+            z-index: 5;
+        }
+
+        /* Bottom corner metadata alignment tags scale smoothly */
+        .corner-label {
+            position: absolute;
+            font-size: 2.5vw;
+            color: #FFFFFF;             /* Shifted corner label text to matching white */
+            opacity: 0.85;               /* Slight opacity adjustment for clear design hierarchy */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            bottom: 3vw;
+        }
+
+        .left-label { left: 3vw; }
+        .right-label { right: 3vw; }
+    </style>
+</head>
+<body>
+
+    <div class="flip-clock-container">
+        <!-- Hour Block Segment -->
+        <div class="flip-card">
+            <span id="hours">04</span>
+            <div class="corner-label left-label" id="ampm">PM</div>
+        </div>
+        
+        <!-- Minute Block Segment -->
+        <div class="flip-card">
+            <span id="minutes">36</span>
+            <div class="corner-label right-label" id="day">WEDNESDAY</div>
+        </div>
+    </div>
+
+    <script>
+        function updateFlipClock() {
+            const now = new Date();
+            
+            // Generate active 12-Hour values
+            let hours = now.getHours();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            
+            let minutes = String(now.getMinutes()).padStart(2, '0');
+            let hourString = String(hours).padStart(2, '0');
+
+            // Format local day matrix
+            const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+            const dayString = days[now.getDay()];
+
+            // Apply calculated updates to HTML tags
+            document.getElementById('hours').textContent = hourString;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('ampm').textContent = ampm;
+            document.getElementById('day').textContent = dayString;
+        }
+
+        // Initialize state loops
+        setInterval(updateFlipClock, 1000);
+        updateFlipClock();
+    </script>
+</body>
+</html>h
